@@ -15,13 +15,12 @@ Here, we propose the graph-CPG model, a concrete implementation of our macro-lev
 
 ```math
 	\dot{\mathbf{x}}_i = f(\mathbf{x}_i) + \text{clamp}\left[\text{MLP}\left(\frac{1}{K}\sum_{k}\sum_{j \in \mathcal{N}(i)} \alpha_{i,j}^k \Theta_t \mathbf{x}_j\right), -1, 1\right],  
-	\label{eq:graph-cpg-main}  
 ```
 where $\mathbf{x}_i \in \mathbb{R}^2$ denotes the state vector of the $i$-th node, and $f: \mathbb{R}^2 \rightarrow \mathbb{R}^2$ models the internal dynamics (e.g., Hopf or Van der Pol oscillator dynamics). The structure inside the multilayer perceptron (MLP) implements a graph attention message-passing mechanism \cite{velivckovic2017graph, brody2021attentive}. To bridge the goal and attention generation, the attention of the $i$-th node to the $j$-th node (for the $k$-th attention head) is computed via a shared attention function $a: \mathbb{R}^{F} \times \mathbb{R}^{F} \rightarrow \mathbb{R}$:  
 
-\begin{equation}  
+```math
 	\alpha_{i,j}^k = a\left(\Theta_s^{\text{dp},k} \mathbf{x}_{\text{dp}} + \Theta_s^k \mathbf{x}_i, \Theta_t^{\text{dp},k} \mathbf{x}_{\text{dp}} + \Theta_t^k \mathbf{x}_j\right),  
-\end{equation}  
+``` 
 
 where $\Theta_s^{\text{dp},k}$, $\Theta_t^{\text{dp},k}$, $\Theta_s^k$, and $\Theta_t^k$ are learnable projection matrices. These matrices transform node states $\mathbf{x}_i, \mathbf{x}_j$ and the desired phase relationships $\mathbf{x}_{\text{dp}}$ into a shared $F$-dimensional feature space. The additive structure incorporates a positional encoding technique inspired by Transformers \cite{vaswani2017attention}, allowing the attention coefficients to adapt dynamically to the system's states.
 <p align="center">
