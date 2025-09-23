@@ -50,7 +50,7 @@ Restart terminal
 mamba --version
 ```
 
-### Step3: create venv with ros and all other packages
+### Step3: Setup all packages
 
 Create virtual environment
 ```console
@@ -75,6 +75,8 @@ pip install torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 --index-url https
 pip install torch-scatter torch-sparse torch-cluster torch-spline-conv pyg-lib -f https://data.pyg.org/whl/torch-2.5.0+cu118.html
 pip install torch-geometric
 ```
+
+Unzip the repo in your local directory.
 
 ## References
 
