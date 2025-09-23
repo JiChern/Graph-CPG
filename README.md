@@ -2,20 +2,20 @@
 A framework that can generate synchronous waveforms with arbitrary phase-lags in arbitrary size of coupled-oscillator-system. Training is very simple!
 
 
-[Ji Chen](mailto:ji.chenuk@gmail.com), [Song Chen], [Yunhan He],  [Li Fan](mailto:fanli77@zju.edu.cn) and [Chao Xu](mailto:cxu@edu.zju.cn)
+[Ji Chen](mailto:ji.chenuk@gmail.com), Song Chen, Yunhan He,  [Li Fan](mailto:fanli77@zju.edu.cn) and [Chao Xu](mailto:cxu@edu.zju.cn)
 
 
 ## Introduction
-This repository includes code implementations of the paper titled "Free Gait Transition and Stable Motion Generation Using CPG-based Locomotion Control for Hexapod Robots" . The research involves an enhanced central pattern generator and a limb motion generator that considers stability criteria.
+This repository includes code implementations of the paper titled "Learning Emergent Synchronization in Coupled Oscillators via Graph Attention and Reinforcement Learning" .
 
-## Improved CPG model
-Based on the analysis of undesired phase locking phenomena in the original diffusive CPG model[[1]](#1), we propose an enhanced model that allows for gait transition between arbitrary gaits. Additionally, the system dynamics during the transient process are improved. The system dynamics of the proposed model are governed by the following differential equations:
+## Coupled oscillators controlled by graph attention mechanism
+We reconceptualize the problem of waveform generation in coupled-oscillator systems from the viewpoint of swarm intelligence. Our objective is to enable each unit within the coupled system to learn what it should attend to in order to achieve collective objectives. This approach aligns closely with contemporary research on graph attention mechanisms. Based on our concept, each unit learns a distributed strategy where the input is the decomposition of the global goal from the unit's local perspective, and the output is the attention it allocates to other units. 
+
+Here, we propose the graph-CPG model, a concrete implementation of our macro-level concept within a two-dimensional coupled oscillator system. Our task is to enable a coupled oscillator system to generate corresponding oscillatory modes based on user-specified desired phase inputs. The system of coupled 2D oscillators governed by graph-attention mechanisms is as follows:
 
 ```math
-\dot{z}_i = \begin{cases}
-    F(z_i) + \gamma_i \text{Perp}_{z_i} (R(\theta_i)z_{i+1}-z_i)\text{,}  & \text{for } i=1,2,...N-1\text{,} \\ 
-    F(z_i) + \gamma_i\text{Perp}_{z_i}(R(\theta_i)z_{1}-z_i)\text{,}      &\text{for } i=N\text{.}
-\end{cases}
+	\dot{\mathbf{x}}_i = f(\mathbf{x}_i) + \text{clamp}\left[\text{MLP}\left(\frac{1}{K}\sum_{k}\sum_{j \in \mathcal{N}(i)} \alpha_{i,j}^k \Theta_t \mathbf{x}_j\right), -1, 1\right],  
+	\label{eq:graph-cpg-main}  
 ```
 where $z_i$ represents the state vector of a neuron, $F(z_i)$ is the internal oscillator of the neuron, $R(\theta_i)$ is a 2D rotation matrix with the desired phase lag $\theta_i$, and $\gamma_i$ indicates the coupling strength. The function $\text{Perp}_{z_i}$ is introduced to optimize the transient dynamics. We have uploaded a MATLAB version of the model, which can be executed to observe its performance in gait transition.
 
