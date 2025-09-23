@@ -23,12 +23,6 @@ where $\mathbf{x}_i \in \mathbb{R}^2$ denotes the state vector of the $i$-th nod
 ``` 
 
 where $\Theta_s^{\text{dp},k}$, $\Theta_t^{\text{dp},k}$, $\Theta_s^k$, and $\Theta_t^k$ are learnable projection matrices. These matrices transform node states $x_i, x_j$ and the desired phase relationships $x_{\text{dp}}$ into a shared $F$-dimensional feature space. The additive structure incorporates a positional encoding technique inspired by Transformers, allowing the attention coefficients to adapt dynamically to the system's states.
-<p align="center">
-  <img src="https://github.com/JiChern/CPG/blob/main/fig/gait_transition_curves.png?raw=true" alt="Sublime's custom image"/>
-</p>
-
-Other types of CPG models [[2]](#1)[[3]](#1) are also available in the 'cpg_matlab' folder, which can be executed to compare with the proposed model.
-
 
 # Installation
 Prerequisites: Ubuntu 20.04, Miniforge toolkits, torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1, torch-scatter torch-sparse, torch-cluster, torch-spline-conv, pyg-lib and torch-geometric
