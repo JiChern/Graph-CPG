@@ -45,59 +45,36 @@ source ~/miniforge3/etc/profile.d/conda.sh
 source ~/miniforge3/etc/profile.d/mamba.sh
 ~/miniforge3/bin/conda init
 ```
-restart terminal
+Restart terminal
 ```console
 mamba --version
 ```
-$ mkdir -p ~/catkin_ws/src
-$ cd ~/catkin_ws/
-$ catkin_make
-```
-## install the packages:
-Clone the hex_motion_gen directory, copy the folders in src directory into the src folder in your workspace. After that, run
+
+### Step3: create venv with ros and all other packages
+
+Create virtual environment
 ```console
-$ cd ~/catkin_ws/
-$ catkin_make
-```
-## source the workspace:
-```console
-$ source ~/catkin_ws/devel/setup.bash
+mamba create -n g_cpg
+mamba activate g_cpg
+conda config --env --add channels conda-forge
+conda config --env --remove channels defaults
+conda config --env --add channels robostack-noetic
 ```
 
-# How to use the packages
-## Launch the robot model and controllers in Gazebo simulator:
+Install ros for robot experiments (Optional)
 ```console
-$ roslaunch hexapod gazebo.launch
-```
-## Run the gait generator
-```console
-$ rosrun hexapod_control gait_generator.py
-```
-The gait_generator.py is the Python implementation of the proposed Central Pattern Generator (CPG) model. You can set the initial
-gait in this script by changing the input of the function 'set_theta' defined in line 406. All available gait configurations 
-are defined in lines 315 to 357.
-
-## Run the trajectory generator
-Open a new terminal and run
-```console
-$ rosrun hexapod_control execute_trajectory_gen.py
-```
-The execute_trajectory_gen.py is the Python implementation of the proposed hexapod limb motion generator. The initial gait and target
-gait can be set by modifying the definitions of the 'start_gait' and 'target_gait' parameters, which are defined in lines 60 and 61. 
-It is important to note that the initial gait of the trajectory generator must match the initial gait setting of the gait generator.
-
-## Get the motor data of the robot
-After observing the complete gait transition process of the robot in the Gazebo simulator, you can terminate the trajectory generator 
-by pressing ctrl+C. The motion trajectories that have been saved can be located in the 'motor_data' folder. These motor data can be 
-utilized in the Adams or other simulator for further evaluations.
-
-## Reset the robot
-Execute the 'respawn_model.py' node to restore the robot model in the Gazebo simulation. It is important to remember to terminate this
-node after the robot has been respawned.
-```console
-$ rosrun hexapod_control respawn_model.py
+conda install ros-noetic-desktop
+conda deactivate
+conda activate g_cpg
+conda install compilers cmake pkg-config make ninja colcon-common-extensions catkin_tools rosdep
 ```
 
+Install dependencies for graph-CPG framework
+```console
+pip install torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cu118
+pip install torch-scatter torch-sparse torch-cluster torch-spline-conv pyg-lib -f https://data.pyg.org/whl/torch-2.5.0+cu118.html
+pip install torch-geometric
+```
 
 ## References
 
