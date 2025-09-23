@@ -25,15 +25,14 @@ where $\mathbf{x}_i \in \mathbb{R}^2$ denotes the state vector of the $i$-th nod
 where $\Theta_s^{\text{dp},k}$, $\Theta_t^{\text{dp},k}$, $\Theta_s^k$, and $\Theta_t^k$ are learnable projection matrices. These matrices transform node states $x_i, x_j$ and the desired phase relationships $x_{\text{dp}}$ into a shared $F$-dimensional feature space. The additive structure incorporates a positional encoding technique inspired by Transformers, allowing the attention coefficients to adapt dynamically to the system's states.
 
 # Installation
-Prerequisites: Ubuntu 20.04, Miniforge toolkits, torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1, torch-scatter torch-sparse, torch-cluster, torch-spline-conv, pyg-lib and torch-geometric
+Prerequisites: Ubuntu 20.04, Miniforge toolkits, torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1, torch-scatter torch-sparse, torch-cluster, torch-spline-conv, pyg-lib and torch-geometric.
 
-## create a virtual environment:
-### Step 1: Install Miniforge (or Mambaforge) for Conda/Mamba:
+## Step 1: Install Miniforge (or Mambaforge) for Conda/Mamba:
 Download and install Miniforge (a minimal Conda installer) from https://github.com/conda-forge/miniforge. Choose the version for your OS (e.g., Linux, macOS, Windows).
 Follow the installer prompts. This sets up conda and mamba (a faster alternative to conda).
 Verify: Run mamba --version in your terminal.
 
-### Step 2: Source and initialize the Conda and Mamba Scripts
+## Step 2: Source and initialize the Conda and Mamba Scripts
 ```console
 source ~/miniforge3/etc/profile.d/conda.sh
 source ~/miniforge3/etc/profile.d/mamba.sh
@@ -44,7 +43,7 @@ Restart terminal
 mamba --version
 ```
 
-### Step3: Setup all packages
+## Step3: Setup all packages
 
 Create virtual environment
 ```console
