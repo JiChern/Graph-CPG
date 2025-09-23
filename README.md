@@ -22,7 +22,7 @@ where $\mathbf{x}_i \in \mathbb{R}^2$ denotes the state vector of the $i$-th nod
 	\alpha_{i,j}^k = a\left(\Theta_s^{\text{dp},k} \mathbf{x}_{\text{dp}} + \Theta_s^k \mathbf{x}_i, \Theta_t^{\text{dp},k} \mathbf{x}_{\text{dp}} + \Theta_t^k \mathbf{x}_j\right),  
 ``` 
 
-where $\Theta_s^{\text{dp},k}$, $\Theta_t^{\text{dp},k}$, $\Theta_s^k$, and $\Theta_t^k$ are learnable projection matrices. These matrices transform node states $\mathbf{x}_i, \mathbf{x}_j$ and the desired phase relationships $\mathbf{x}_{\text{dp}}$ into a shared $F$-dimensional feature space. The additive structure incorporates a positional encoding technique inspired by Transformers \cite{vaswani2017attention}, allowing the attention coefficients to adapt dynamically to the system's states.
+where $\Theta_s^{\text{dp},k}$, $\Theta_t^{\text{dp},k}$, $\Theta_s^k$, and $\Theta_t^k$ are learnable projection matrices. These matrices transform node states $x_i, x_j$ and the desired phase relationships $x_{\text{dp}}$ into a shared $F$-dimensional feature space. The additive structure incorporates a positional encoding technique inspired by Transformers, allowing the attention coefficients to adapt dynamically to the system's states.
 <p align="center">
   <img src="https://github.com/JiChern/CPG/blob/main/fig/gait_transition_curves.png?raw=true" alt="Sublime's custom image"/>
 </p>
