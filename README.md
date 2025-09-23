@@ -43,9 +43,9 @@ Restart terminal
 mamba --version
 ```
 
-## Step3: Setup all packages
+## Step3: Setup all packages in virtual environment
 
-Create virtual environment
+### Create virtual environment
 ```console
 mamba create -n g_cpg
 mamba activate g_cpg
@@ -54,7 +54,7 @@ conda config --env --remove channels defaults
 conda config --env --add channels robostack-noetic
 ```
 
-Install ros for robot experiments (Optional)
+### (Optional) Install ros for robot experiments 
 ```console
 conda install ros-noetic-desktop
 conda deactivate
@@ -62,14 +62,14 @@ conda activate g_cpg
 conda install compilers cmake pkg-config make ninja colcon-common-extensions catkin_tools rosdep
 ```
 
-Install dependencies for graph-CPG framework
+### Install dependencies for graph-CPG framework
 ```console
 pip install torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cu118
 pip install torch-scatter torch-sparse torch-cluster torch-spline-conv pyg-lib -f https://data.pyg.org/whl/torch-2.5.0+cu118.html
 pip install torch-geometric
 ```
 
-Unzip the repo in your local directory.
+### Unzip the repo in your local directory.
 
 # Train the model
 Use train.py, you can train graph-CPG with differnent number of attention heads and dimensionalities of feature space.
