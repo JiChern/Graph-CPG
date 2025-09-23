@@ -29,30 +29,27 @@ where $\Theta_s^{\text{dp},k}$, $\Theta_t^{\text{dp},k}$, $\Theta_s^k$, and $\Th
 
 Other types of CPG models [[2]](#1)[[3]](#1) are also available in the 'cpg_matlab' folder, which can be executed to compare with the proposed model.
 
-## CPG-based locomotion control for hexapod robot
-We propose a motion generator that is based on the proposed CPG model. This motion generator is responsible for planning the leg motion trajectories for both the stance and swing stages, while also taking into consideration the stability criteria. The overall control framework can be seen in the figure below.
-
-<p align="center">
-  <img src="https://github.com/JiChern/CPG/blob/main/fig/motion_fram.jpg?raw=true" alt="Sublime's custom image"/>
-</p>
-
-The Python implementation of the motion generation framework has been uploaded in the 'hex_motion_gen' folder. The package allows users to generate limb motion trajectories for further evaluations. It is recommended to evaluate the generated joint trajectories in the Adams simulator.
-
-
-### Gait transition from caterpillar to metachronal
-<p align="center">
-  <img src="https://github.com/JiChern/CPG/blob/main/fig/cater_metach.gif?raw=true" alt="Sublime's custom image"/>
-</p>
-
-### Gait transition from tetrapod to caterpillar
-<p align="center">
-  <img src="https://github.com/JiChern/CPG/blob/main/fig/tetra_cater.gif?raw=true" alt="Sublime's custom image"/>
-</p>
 
 # Installation
-Prerequisites: Ubuntu 20.04, ROS Noetic with Python 3.8, and Gazebo installed.
-## create a workspace:
+Prerequisites: Ubuntu 20.04, Miniforge toolkits, torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1, torch-scatter torch-sparse, torch-cluster, torch-spline-conv, pyg-lib and torch-geometric
+
+## create a virtual environment:
+### Step 1: Install Miniforge (or Mambaforge) for Conda/Mamba:
+Download and install Miniforge (a minimal Conda installer) from https://github.com/conda-forge/miniforge. Choose the version for your OS (e.g., Linux, macOS, Windows).
+Follow the installer prompts. This sets up conda and mamba (a faster alternative to conda).
+Verify: Run mamba --version in your terminal.
 ```console
+
+### Step 2: Source and initialize the Conda and Mamba Scripts
+source ~/miniforge3/etc/profile.d/conda.sh
+source ~/miniforge3/etc/profile.d/mamba.sh
+
+~/miniforge3/bin/conda init
+
+restart terminal
+
+mamba --version
+
 $ mkdir -p ~/catkin_ws/src
 $ cd ~/catkin_ws/
 $ catkin_make
