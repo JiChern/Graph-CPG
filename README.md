@@ -38,7 +38,6 @@ Prerequisites: Ubuntu 20.04, Miniforge toolkits, torch==2.5.1 torchvision==0.20.
 Download and install Miniforge (a minimal Conda installer) from https://github.com/conda-forge/miniforge. Choose the version for your OS (e.g., Linux, macOS, Windows).
 Follow the installer prompts. This sets up conda and mamba (a faster alternative to conda).
 Verify: Run mamba --version in your terminal.
-```console
 
 ### Step 2: Source and initialize the Conda and Mamba Scripts
 source ~/miniforge3/etc/profile.d/conda.sh
