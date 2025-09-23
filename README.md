@@ -40,15 +40,15 @@ Follow the installer prompts. This sets up conda and mamba (a faster alternative
 Verify: Run mamba --version in your terminal.
 
 ### Step 2: Source and initialize the Conda and Mamba Scripts
+```console
 source ~/miniforge3/etc/profile.d/conda.sh
 source ~/miniforge3/etc/profile.d/mamba.sh
-
 ~/miniforge3/bin/conda init
-
+```
 restart terminal
-
+```console
 mamba --version
-
+```
 $ mkdir -p ~/catkin_ws/src
 $ cd ~/catkin_ws/
 $ catkin_make
