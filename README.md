@@ -54,12 +54,13 @@ conda config --env --remove channels defaults
 conda config --env --add channels robostack-noetic
 ```
 
-### (Optional) Install ros for robot experiments 
+### Install ros and pybullet for robot experiments 
 ```console
 conda install ros-noetic-desktop
 conda deactivate
 conda activate g_cpg
 conda install compilers cmake pkg-config make ninja colcon-common-extensions catkin_tools rosdep
+pip install pybullet
 ```
 
 ### Install dependencies for graph-CPG framework
