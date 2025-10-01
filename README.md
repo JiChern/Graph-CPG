@@ -88,6 +88,8 @@ python test_model.py
 <p align="center">
   <img src="https://github.com/JiChern/Graph-CPG/blob/main/fig/centipede.gif?raw=true" alt="Sublime's custom image"/>
 </p>
+
+
 ## Step 1: execute the gait generator
 Open a terminal
 ```console
