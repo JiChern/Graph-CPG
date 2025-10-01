@@ -92,12 +92,14 @@ conda activate g_cpg
 cd simulation
 python gait_generator.py --cell_num=20  #you can adjust --cell_num to any odd number <= 34 (if more than 34 legs, pybullet cannot hanle these much joints by default settings)
 ```
+## Step 2: run the simulation script
 Open another terminal
 ```console
 conda activate g_cpg
 cd simulation
 python sim_robot.py --seg_num=10  #you can adjust --cell_num to any number <= 17 (if more than 34 legs, pybullet cannot hanle these much joints by default settings)
 ```
+## Step 3: Adjust the turning of the centepede
 After the robot is moving, you can adjust its turning within [-1,1]. Open another terminal:
 ```console
 conda activate g_cpg
