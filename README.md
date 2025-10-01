@@ -84,7 +84,7 @@ python train.py --heads=8 --fd=64
 conda activate g_cpg
 python test_model.py
 ```
-# Simulate a centepede robot in pybullet with graph-CPG
+# Simulate a centipede robot in pybullet with graph-CPG
 <p align="center">
   <img src="https://github.com/JiChern/Graph-CPG/blob/main/fig/centipede.gif?raw=true" alt="Sublime's custom image"/>
 </p>
@@ -104,7 +104,7 @@ conda activate g_cpg
 cd simulation
 python sim_robot.py --seg_num=10  #you can adjust --cell_num to any number <= 17 (if more than 34 legs, pybullet cannot hanle these much joints by default settings)
 ```
-## Step 3: Adjust the turning of the centepede
+## Step 3: Adjust the turning of the centipede
 After the robot is moving, you can adjust its turning within [-1,1]. Open another terminal:
 ```console
 conda activate g_cpg
