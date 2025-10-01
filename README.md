@@ -84,7 +84,25 @@ python train.py --heads=8 --fd=64
 conda activate g_cpg
 python test_model.py
 ```
-
+# Simulate a centepede robot in pybullet with graph-CPG
+## Step 1: execute the gait generator
+Open a terminal
+```console
+conda activate g_cpg
+cd simulation
+python gait_generator.py --cell_num=20  #you can adjust --cell_num to any odd number <= 34 (if more than 34 legs, pybullet cannot hanle these much joints by default settings)
+```
+Open another terminal
+```console
+conda activate g_cpg
+cd simulation
+python sim_robot.py --seg_num=10  #you can adjust --cell_num to any number <= 17 (if more than 34 legs, pybullet cannot hanle these much joints by default settings)
+```
+After the robot is moving, you can adjust its turning within [-1,1]. Open another terminal:
+```console
+conda activate g_cpg
+rostopic pub /turning std_msgs/Float32 "data: 0.8" 
+```
 
 ## References
 
