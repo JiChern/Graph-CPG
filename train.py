@@ -3,6 +3,9 @@ import random
 from argparse import ArgumentParser
 from collections import deque
 import time
+from datetime import datetime, timedelta
+from tqdm import tqdm
+import logging
 
 from numpy import genfromtxt
 import matplotlib.pyplot as plt
@@ -72,7 +75,16 @@ def train_agent_model_free(agent, env, env_eval, params):
     noise_decay = 1
     alpha_noise_scalar = 10
 
-    while samples_number < 3e7:
+    # 初始化进度条和时间跟踪
+    max_samples = int(2e6)
+    start_time = time.time()
+    last_time = start_time
+    
+    # 创建进度条
+    pbar = tqdm(total=max_samples, desc="Training", unit="samples")
+    pbar.set_postfix({"Episode": 0, "Reward": 0, "ETA": "calculating..."})
+
+    while samples_number < max_samples:
 
         time_step = 0
         episode_reward = 0
@@ -143,6 +155,30 @@ def train_agent_model_free(agent, env, env_eval, params):
                 agent.optimize(update_timestep)
                 n_updates += 1
 
+            # 更新进度条
+            if samples_number % 1000 == 0:  # 每1000步更新一次
+                current_time = time.time()
+                elapsed_time = current_time - start_time
+                
+                # 计算预估剩余时间
+                if samples_number > 0:
+                    time_per_sample = elapsed_time / samples_number
+                    remaining_samples = max_samples - samples_number
+                    eta_seconds = time_per_sample * remaining_samples
+                    eta = str(timedelta(seconds=int(eta_seconds)))
+                else:
+                    eta = "calculating..."
+                
+                # 更新进度条
+                pbar.update(samples_number - pbar.n)
+                current_time_str = datetime.now().strftime("%H:%M:%S")
+                pbar.set_postfix({
+                    "Episode": i_episode,
+                    "Reward": f"{episode_reward:.2f}",
+                    "Time": current_time_str,
+                    "ETA": eta
+                })
+
             # Evaluation and logging
             if cumulative_timestep % log_interval == 0 and cumulative_timestep > n_collect_steps: # n_collect_steps = 1000
                 avg_length = np.mean(episode_steps)
@@ -151,7 +187,23 @@ def train_agent_model_free(agent, env, env_eval, params):
 
                 dp, reward_sum = evaluate_agent(env_eval, agent)
 
-                print('Episode {} \t Samples {} \t heads {} \t fd {} \t Avg length: {} \t Train reward: {} \t Test reward: {} \t Number of Updates: {}'.format(i_episode, samples_number,str(params['heads']), str(params['fd']), avg_length, running_reward, reward_sum, n_updates))
+                # 美化打印格式
+                print("\n" + "="*80)
+                print(f"📊 TRAINING METRICS - Episode {i_episode}")
+                print("="*80)
+                print(f"📈 Samples:        {samples_number:,}")
+                print(f"🎯 Episode:        {i_episode}")
+                print(f"📏 Avg Length:     {avg_length:.2f}")
+                print(f"🏋️  Train Reward:   {running_reward:.4f}")
+                print(f"🎯 Test Reward:    {reward_sum:.4f}")
+                print(f"🔄 Updates:        {n_updates}")
+                print(f"🧠 Heads:          {params['heads']}")
+                print(f"🔧 Feature Dim:    {params['fd']}")
+                print("="*80 + "\n")
+                
+                # 简洁的日志格式
+                log_msg = f"Episode {i_episode} | Samples {samples_number:,} | Train {running_reward:.4f} | Test {reward_sum:.4f} | Updates {n_updates}"
+                logging.info(log_msg)
                 
                 episode_steps = []
                 episode_rewards = []
@@ -159,10 +211,20 @@ def train_agent_model_free(agent, env, env_eval, params):
             # Save the model checkpoints for further evaluations.
             if cumulative_timestep % save_interval == 0:
                 if save_model:
-                    make_checkpoint(agent, cumulative_timestep, params['env'],'multi-goal-'+str(params['heads'])+'-'+str(params['fd']))
+                    checkpoint_name = 'multi-goal-'+str(params['heads'])+'-'+str(params['fd'])
+                    make_checkpoint(agent, cumulative_timestep, params['env'], checkpoint_name)
+                    logging.info(f'Model checkpoint saved at step {cumulative_timestep}: {checkpoint_name}')
         
         episode_steps.append(time_step)
         episode_rewards.append(episode_reward)
+    
+    # 关闭进度条
+    pbar.close()
+    total_time = timedelta(seconds=int(time.time() - start_time))
+    completion_msg = f"Training completed! Total time: {total_time}"
+    print(f"\n{completion_msg}")
+    logging.info(completion_msg)
+    logging.info(f"Final stats: Total samples: {samples_number}, Total episodes: {i_episode}, Total updates: {n_updates}")
         
         
         
@@ -215,6 +277,20 @@ def main():
     seed = params['seed']
     heads = params['heads']
     fd = params['fd']
+
+    # 设置日志记录
+    log_filename = f'training_log_{datetime.now().strftime("%Y%m%d_%H%M%S")}_seed{seed}_heads{heads}_fd{fd}.txt'
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(message)s',
+        handlers=[
+            logging.FileHandler(log_filename),
+            logging.StreamHandler()  # 同时输出到终端
+        ]
+    )
+    
+    logging.info(f"Starting training with parameters: seed={seed}, heads={heads}, fd={fd}")
+    logging.info(f"Log file: {log_filename}")
 
     # construct the RL environments of 8-cell-coupled oscillators, the maximum steps of and episode is 125.
     env = CPGEnv(cell_nums=8, env_length=125)  
