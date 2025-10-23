@@ -75,12 +75,12 @@ def train_agent_model_free(agent, env, env_eval, params):
     noise_decay = 1
     alpha_noise_scalar = 10
 
-    # 初始化进度条和时间跟踪
+    # Initialize progress bar and time tracking
     max_samples = int(2e6)
     start_time = time.time()
     last_time = start_time
     
-    # 创建进度条
+    # Create progress bar
     pbar = tqdm(total=max_samples, desc="Training", unit="samples")
     pbar.set_postfix({"Episode": 0, "Reward": 0, "ETA": "calculating..."})
 
@@ -155,12 +155,12 @@ def train_agent_model_free(agent, env, env_eval, params):
                 agent.optimize(update_timestep)
                 n_updates += 1
 
-            # 更新进度条
-            if samples_number % 1000 == 0:  # 每1000步更新一次
+            # Update progress bar
+            if samples_number % 1000 == 0:  # Update every 1000 steps
                 current_time = time.time()
                 elapsed_time = current_time - start_time
                 
-                # 计算预估剩余时间
+                # Calculate estimated remaining time
                 if samples_number > 0:
                     time_per_sample = elapsed_time / samples_number
                     remaining_samples = max_samples - samples_number
@@ -169,7 +169,7 @@ def train_agent_model_free(agent, env, env_eval, params):
                 else:
                     eta = "calculating..."
                 
-                # 更新进度条
+                # Update progress bar
                 pbar.update(samples_number - pbar.n)
                 current_time_str = datetime.now().strftime("%H:%M:%S")
                 pbar.set_postfix({
@@ -187,7 +187,7 @@ def train_agent_model_free(agent, env, env_eval, params):
 
                 dp, reward_sum = evaluate_agent(env_eval, agent)
 
-                # 美化打印格式
+                # Beautified print format
                 print("\n" + "="*80)
                 print(f"📊 TRAINING METRICS - Episode {i_episode}")
                 print("="*80)
@@ -201,7 +201,7 @@ def train_agent_model_free(agent, env, env_eval, params):
                 print(f"🔧 Feature Dim:    {params['fd']}")
                 print("="*80 + "\n")
                 
-                # 简洁的日志格式
+                # Concise log format
                 log_msg = f"Episode {i_episode} | Samples {samples_number:,} | Train {running_reward:.4f} | Test {reward_sum:.4f} | Updates {n_updates}"
                 logging.info(log_msg)
                 
@@ -218,7 +218,7 @@ def train_agent_model_free(agent, env, env_eval, params):
         episode_steps.append(time_step)
         episode_rewards.append(episode_reward)
     
-    # 关闭进度条
+    # Close progress bar
     pbar.close()
     total_time = timedelta(seconds=int(time.time() - start_time))
     completion_msg = f"Training completed! Total time: {total_time}"
@@ -278,14 +278,14 @@ def main():
     heads = params['heads']
     fd = params['fd']
 
-    # 设置日志记录
+    # Setup logging
     log_filename = f'training_log_{datetime.now().strftime("%Y%m%d_%H%M%S")}_seed{seed}_heads{heads}_fd{fd}.txt'
     logging.basicConfig(
         level=logging.INFO,
         format='%(asctime)s - %(message)s',
         handlers=[
             logging.FileHandler(log_filename),
-            logging.StreamHandler()  # 同时输出到终端
+            logging.StreamHandler()  # Also output to terminal
         ]
     )
     
