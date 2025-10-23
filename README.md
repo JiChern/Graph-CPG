@@ -76,7 +76,6 @@ pip install torch-geometric
 Use train.py, you can train graph-CPG with differnent number of attention heads and dimensionalities of feature space.
 ```console
 conda activate g_cpg
-cd graph_cpg_directory/scripts
 python train.py --heads=8 --fd=64
 ```
 # Test the model
